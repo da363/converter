@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text To Speech Converter</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="card">
+  <h1>Text To Speech <span>Converter</span></h1>
+
+  <label for="text">Your text</label>
+  <textarea id="text" placeholder="Write anything here..." maxlength="5000"></textarea>
+  <div class="count"><span id="count">0</span> / 5000</div>
+
+  <label for="voice">Voice</label>
+  <select id="voice"></select>
+
+  <div class="sliders">
+    <div><label for="rate">Speed <b id="rateV">1.0</b>x</label>
+      <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1"></div>
+    <div><label for="pitch">Pitch <b id="pitchV">1.0</b></label>
+      <input type="range" id="pitch" min="0.5" max="2" step="0.1" value="1"></div>
+  </div>
+
+  <div class="actions">
+    <button id="play" class="primary">▶ Listen</button>
+    <button id="pause" class="ghost" disabled>⏸ Pause</button>
+    <button id="stop" class="ghost" disabled>■ Stop</button>
+  </div>
+
+  <div class="actions">
+    <button id="dlText" class="ghost">⬇ Download text (.txt)</button>
+    <button id="dlAudio" class="ghost">⬇ Record tab audio (desktop)</button>
+  </div>
+  <div class="actions">
+    <button id="dlOffline" class="primary">🎧 Generate audio file (works on phone)</button>
+  </div>
+  <progress id="prog" max="100" value="0" hidden></progress>
+  <audio id="player" controls hidden></audio>
+  <a id="saveLink" class="savelink" hidden>⬇ Save audio file</a>
+  <p class="hint">Generate runs an AI voice on your device (English). First use downloads ~90 MB, then it's cached. Keep the page open while it works.</p>
+  <p class="hint">Audio download records this tab's sound (Chrome/Edge desktop). When prompted, choose <b>This tab</b> and enable <b>Share tab audio</b>.</p>
+  <p id="status" class="status" role="status"></p>
+</main>
+<script src="script.js"></script>
+<script type="module" src="offline-tts.js"></script>
+</body>
+</html>
