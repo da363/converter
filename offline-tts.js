@@ -3,7 +3,7 @@ import { KokoroTTS } from "https://cdn.jsdelivr.net/npm/kokoro-js@1.2.1/+esm";
 
 const $ = id => document.getElementById(id);
 const btn = $("dlOffline"), prog = $("prog"), player = $("player"), link = $("saveLink"), status = $("status");
-let tts = null, lastUrl = null;
+let tts = null, ttsQ = null, lastUrl = null;
 
 function wavBlob(samples, rate) {
   const buf = new ArrayBuffer(44 + samples.length * 2), v = new DataView(buf);
@@ -19,7 +19,7 @@ function wavBlob(samples, rate) {
 function chunks(text) {
   const parts = text.match(/[^.!?\n]+[.!?]*/g)?.map(s => s.trim()).filter(Boolean) || [];
   const out = []; let cur = "";
-  for (const p of parts) { if ((cur + " " + p).length > 250 && cur) { out.push(cur); cur = p; } else cur = (cur + " " + p).trim(); }
+  for (const p of parts) { if ((cur + " " + p).length > 300 && cur) { out.push(cur); cur = p; } else cur = (cur + " " + p).trim(); }
   if (cur) out.push(cur);
   return out;
 }
@@ -29,18 +29,23 @@ btn.addEventListener("click", async () => {
   if (!text) return (status.textContent = "Please enter some text first.");
   btn.disabled = true; prog.hidden = false; prog.value = 0; link.hidden = player.hidden = true;
   try {
-    if (!tts) {
+    const q = $("kQuality").value;
+    if (!tts || ttsQ !== q) {
+      tts = null;
       status.textContent = "Downloading voice model (first time only)...";
       tts = await KokoroTTS.from_pretrained("onnx-community/Kokoro-82M-v1.0-ONNX", {
-        dtype: "q8", device: "wasm",
+        dtype: q, device: "wasm",
         progress_callback: p => { if (p.status === "progress") prog.value = Math.round(p.progress) * 0.5; }
       });
+      ttsQ = q;
     }
     const parts = chunks(text), pcs = []; let rate = 24000, total = 0;
+    const gap = n => new Float32Array(Math.round(rate * n));
     for (let i = 0; i < parts.length; i++) {
       status.textContent = `Generating audio ${i + 1}/${parts.length}...`;
-      const a = await tts.generate(parts[i], { voice: "af_heart", speed: +$("rate").value });
+      const a = await tts.generate(parts[i], { voice: $("kVoice").value, speed: +$("rate").value });
       rate = a.sampling_rate; pcs.push(a.audio); total += a.audio.length;
+      if (i < parts.length - 1) { const g = gap(0.22); pcs.push(g); total += g.length; }
       prog.value = 50 + ((i + 1) / parts.length) * 50;
     }
     const all = new Float32Array(total); let o = 0;
