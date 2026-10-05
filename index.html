@@ -34,24 +34,13 @@
     <button id="dlText" class="ghost">⬇ Download text (.txt)</button>
     <button id="dlAudio" class="ghost">⬇ Record tab audio (desktop)</button>
   </div>
-  <div class="sliders">
-    <div><label for="kVoice">Audio-file voice</label>
-      <select id="kVoice">
-        <optgroup label="US Female"><option value="af_heart">Heart (best)</option><option value="af_bella">Bella</option><option value="af_nicole">Nicole</option><option value="af_sarah">Sarah</option><option value="af_sky">Sky</option><option value="af_nova">Nova</option><option value="af_river">River</option><option value="af_aoede">Aoede</option><option value="af_kore">Kore</option><option value="af_jessica">Jessica</option><option value="af_alloy">Alloy</option></optgroup>
-        <optgroup label="US Male"><option value="am_michael">Michael</option><option value="am_adam">Adam</option><option value="am_fenrir">Fenrir</option><option value="am_puck">Puck</option><option value="am_echo">Echo</option><option value="am_eric">Eric</option><option value="am_liam">Liam</option><option value="am_onyx">Onyx</option><option value="am_santa">Santa</option></optgroup>
-        <optgroup label="UK Female"><option value="bf_emma">Emma</option><option value="bf_isabella">Isabella</option><option value="bf_alice">Alice</option><option value="bf_lily">Lily</option></optgroup>
-        <optgroup label="UK Male"><option value="bm_george">George</option><option value="bm_lewis">Lewis</option><option value="bm_daniel">Daniel</option><option value="bm_fable">Fable</option></optgroup>
-      </select></div>
-    <div><label for="kQuality">Quality</label>
-      <select id="kQuality"><option value="q8">Standard (~90 MB)</option><option value="fp32">High (~330 MB, slower)</option></select></div>
-  </div>
   <div class="actions">
     <button id="dlOffline" class="primary">🎧 Generate audio file (works on phone)</button>
   </div>
   <progress id="prog" max="100" value="0" hidden></progress>
   <audio id="player" controls hidden></audio>
   <a id="saveLink" class="savelink" hidden>⬇ Save audio file</a>
-  <p class="hint">Generate runs an AI voice on your device (English). First use downloads the model (size depends on Quality), then it's cached. Keep the page open while it works.</p>
+  <p class="hint">Generate runs an AI voice on your device (English). First use downloads ~90 MB, then it's cached. Keep the page open while it works.</p>
   <p class="hint">Audio download records this tab's sound (Chrome/Edge desktop). When prompted, choose <b>This tab</b> and enable <b>Share tab audio</b>.</p>
   <p id="status" class="status" role="status"></p>
 </main>
